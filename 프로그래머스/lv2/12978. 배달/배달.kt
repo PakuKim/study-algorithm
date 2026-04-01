@@ -9,17 +9,30 @@ class Solution {
             graph.getOrPut(b) { mutableListOf() }.add(a to c)
         }
         
-        val costs = IntArray(N + 1) { Int.MAX_VALUE }
-        fun dfs(node: Int, cost: Int) {
-            if (cost >= costs[node]) return
-            costs[node] = cost
-
-            for ((next, nextCost) in graph[node]!!) {
-                dfs(next, cost + nextCost)
+        fun dijkstra(n: Int): IntArray {
+            val costs = IntArray(N + 1) { Int.MAX_VALUE }
+            val queue = PriorityQueue<Pair<Int, Int>>(compareBy { it.second })
+            
+            costs[1] = 0
+            queue.add(1 to 0)
+            
+            while (queue.isNotEmpty()) {
+                val (node, cost) = queue.poll()!!
+                if (cost > costs[node]) continue
+                
+                for ((next, nextCost) in graph[node]!!) {
+                    val newCost = cost + nextCost
+                    
+                    if (newCost < costs[next]) {
+                        costs[next] = newCost
+                        queue.add(next to newCost)
+                    }
+                }
             }
+            
+            return costs
         }
-        dfs(1, 0)
 
-        return costs.count { it <= k }
+        return dijkstra(N).count { it <= k }
     }
 }
