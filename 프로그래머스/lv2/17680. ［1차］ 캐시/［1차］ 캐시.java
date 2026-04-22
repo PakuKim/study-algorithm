@@ -6,21 +6,20 @@ class Solution {
         int answer = 0;
         List<String> cached = new ArrayList<>(cacheSize);
 
-        for (String city : cities) {
-            city = city.toLowerCase();
-            
-            if (cached.remove(city)) {
-                answer += 1;
-            } else {
-                answer += 5;
-                if (cached.size() == cacheSize) {
-                    cached.remove(0);
-                }
+        for (String s : cities) {
+            String city = s.toLowerCase();
+
+            if (cached.contains(city)) answer++;
+            else answer += 5;
+
+            cached.remove(city);
+            if (cached.size() == cacheSize) {
+                cached.remove(0);
             }
 
             cached.add(city);
         }
-        
+
         return answer;
     }
 }
