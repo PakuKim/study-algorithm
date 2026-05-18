@@ -1,7 +1,7 @@
-SELECT board.title title, board.board_id board_id, reply.reply_id reply_id, reply.writer_id writer_id, reply.contents contents, DATE_FORMAT(reply.created_date, '%Y-%m-%d') created_date
-FROM used_goods_board board
-INNER JOIN used_goods_reply reply
-ON board.board_id = reply.board_id
-WHERE YEAR(board.created_date) = 2022
-AND MONTH(board.created_date) = 10
-ORDER BY reply.created_date, board.title
+SELECT UGB.TITLE, UGB.BOARD_ID, UGR.REPLY_ID, UGR.WRITER_ID, UGR.CONTENTS, 
+DATE_FORMAT(UGR.CREATED_DATE, '%Y-%m-%d') CREATED_DATE
+FROM USED_GOODS_BOARD UGB
+INNER JOIN USED_GOODS_REPLY UGR ON UGB.BOARD_ID = UGR.BOARD_ID
+WHERE YEAR(UGB.CREATED_DATE) = 2022
+AND MONTH(UGB.CREATED_DATE) = 10
+ORDER BY UGR.CREATED_DATE ASC, UGB.TITLE ASC
