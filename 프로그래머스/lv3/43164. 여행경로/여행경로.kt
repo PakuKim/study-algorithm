@@ -1,31 +1,27 @@
 class Solution {
     fun solution(tickets: Array<Array<String>>): Array<String> {
-        val path = mutableListOf<String>()
-        val visited = BooleanArray(tickets.size)
         tickets.sortBy { it[1] }
+        val visited = BooleanArray(tickets.size)
+        val path = mutableListOf<String>()
 
-        fun dfs(from: String) {
-            if (path.size == tickets.size) {
-                path.add(from)
-            }
+        fun dfs(from: String): Boolean {
+            path.add(from)
+            if (path.size == tickets.size + 1) return true
 
-            for(i in tickets.indices) {
+            for (i in tickets.indices) {
                 val (start, end) = tickets[i]
-
                 if (start == from && !visited[i]) {
                     visited[i] = true
-                    path.add(start)
-                    dfs(end)
-                    if (path.size < tickets.size) {
-                        path.removeAt(path.lastIndex)
-                        visited[i] = false
-                    }
+                    if (dfs(end)) return true
+                    visited[i] = false
                 }
             }
+
+            path.removeAt(path.lastIndex)
+            return false
         }
 
         dfs("ICN")
-        
         return path.toTypedArray()
     }
 }
